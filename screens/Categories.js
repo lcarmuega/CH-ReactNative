@@ -1,6 +1,8 @@
+import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from 'react-native';
 import CategoryCard from '../components/CategoryCard';
+import { auth } from '../firebase/config';
 
 const CATEGORIES = [
   {
@@ -42,8 +44,15 @@ const Categories = ({ navigation }) => {
     })
   }
 
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+    }).catch((error) => {
+    });
+  }
+
   return (
     <View>
+      <TouchableOpacity onPress={handleSignOut}><Text> Sign Out</Text></TouchableOpacity>
       {categories.length !== 0 ? 
         <FlatList
           data={categories}
@@ -57,4 +66,4 @@ const Categories = ({ navigation }) => {
   )
 }
 
-export default Categories;
+export default Categories; 
