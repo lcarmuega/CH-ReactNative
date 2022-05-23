@@ -1,42 +1,14 @@
 import { signOut } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from 'react-native';
+import React, { useContext } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CategoryCard from '../components/CategoryCard';
+import { Shop } from '../context/ShopProvider';
 import { auth } from '../firebase/config';
-
-const CATEGORIES = [
-  {
-    id: 1,
-    name: "Fiction"
-  },
-  {
-    id: 2,
-    name: "Non-Fiction"
-  }
-];
+import { colors } from '../styles/colors';
 
 const Categories = ({ navigation }) => {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-
-    (async () => {
-      const promesa = new Promise((acc, rej) => {
-        const response = CATEGORIES;
-        setTimeout(() => {
-          acc(response);
-        }, 1000)
-      })
-      try {
-        const respuesta = await promesa;
-        const categories = respuesta;
-        setCategories(categories);
-      } catch (error) {
-        console.log(error);
-      }
-    })()
-
-  }, [])
+  
+  const {categories} = useContext(Shop);
 
   const handleNavigation = (categoryName) => {
     navigation.navigate('Products', {
@@ -52,7 +24,7 @@ const Categories = ({ navigation }) => {
 
   return (
     <View>
-      <TouchableOpacity onPress={handleSignOut}><Text> Sign Out</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={handleSignOut}><Text> Sign Out</Text></TouchableOpacity>
       {categories.length !== 0 ? 
         <FlatList
           data={categories}
@@ -65,5 +37,19 @@ const Categories = ({ navigation }) => {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  button: {
+    alignSelf: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: colors.lilac,
+    padding: 5,
+    margin: 10,
+    borderWidth: 0.5,
+    borderColor: "black",
+    borderRadius: 8,
+    width: "30%"
+  }
+})
 
 export default Categories; 

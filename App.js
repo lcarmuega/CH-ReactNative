@@ -1,10 +1,12 @@
-import { auth } from './firebase/config';
+import { LogBox } from 'react-native';
+import ShopProvider from './context/ShopProvider';
 import MainNavigator from './navigation';
 
-console.log(auth);
-
 export default function App() {
+
   return (
-    <MainNavigator/>
+    <ShopProvider>
+      <MainNavigator />
+    </ShopProvider>
   );
 }
