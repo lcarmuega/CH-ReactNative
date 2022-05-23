@@ -1,18 +1,35 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Shop } from '../context/ShopProvider';
+import { colors } from '../styles/colors';
 
-const ProductDetail = ({ route }) => {
+const ProductDetail = ({ navigation, route }) => {
   const { product } = route.params;
 
-  useEffect(() => {
-    console.log(product)
-  }, [])
+  const { addToCart } = useContext(Shop);
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    handleNavigation();
+  }
+
+  const handleNavigation = () => {
+    navigation.navigate('Cart');
+  }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{product.title}</Text>
-      <Text style={styles.descriptionText} >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempor sem a sem malesuada, eget posuere est sagittis. Quisque varius risus id felis iaculis, nec bibendum augue scelerisque. Aliquam sit amet dictum augue, at volutpat urna. Quisque finibus malesuada neque, a maximus diam varius sed. Nunc nisl massa, fermentum et orci vel, sagittis posuere mauris. Donec aliquet nisi eu interdum faucibus. </Text>
-      <Text style={styles.price}>${product.price}</Text>
+    <View style={styles.scrollContainer}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Image style={styles.image}
+          source={{ uri: product.image }}></Image>
+        <Text style={styles.title}>{product.title}</Text>
+        <Text style={styles.author}>{product.author}</Text>
+        <Text style={styles.descriptionText} >{product.description}</Text>
+        <Text style={styles.price}>${product.price}</Text>
+      </ScrollView>
+      <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
+        <Text>Add to cart</Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -20,16 +37,20 @@ const ProductDetail = ({ route }) => {
 export default ProductDetail;
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flex: 1
+  },
   container: {
-    flex: 2,
     alignItems: "center",
     justifyContent: "flex-start",
-    marginTop: 30,
-    height: 50
+    padding: 15
   },
   title: {
     fontSize: 15,
     fontWeight: 'bold'
+  },
+  author: {
+
   },
   descriptionText: {
     alignSelf: 'stretch',
@@ -38,5 +59,22 @@ const styles = StyleSheet.create({
   },
   price: {
     margin: 10
+  },
+  image: {
+    height: 300,
+    width: '95%',
+    resizeMode: 'contain',
+    margin: 10
+  }, 
+  button: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.superLightBrown,
+    padding: 5,
+    margin: 10,
+    borderWidth: 0.5,
+    borderColor: "black",
+    borderRadius: 8,
+    width: "30%"
   }
 })

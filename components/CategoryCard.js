@@ -3,8 +3,8 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 const CategoryCard = ({ data, handleNavigation }) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => handleNavigation(data.name)}>
-            <Text style={styles.title} >{data.name}</Text>
+        <TouchableOpacity style={styles.container} onPress={() => handleNavigation(data.title)}>
+            <Text style={styles.title} >{data.title}</Text>
         </TouchableOpacity>
     )
 }
